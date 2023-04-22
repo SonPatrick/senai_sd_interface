@@ -1,36 +1,41 @@
-import 'dart:convert';
-
 class User {
-  int? status;
-  String? message;
-  List<Data>? data;
+  User({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+  late final int status;
+  late final String message;
+  late final List<Data> data;
 
-  User({this.status, this.message, this.data});
+  User.empty();
 
-  factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
+  User.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
+  }
 
-  String toRawJson() => json.encode(toJson);
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        status: json['success'],
-        message: json['message'],
-        data: json["data"].map((x) => Data.fromJson(x)).toList(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'status': status,
-        'message': message,
-        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['status'] = status;
+    _data['message'] = message;
+    _data['data'] = data.map((e) => e.toJson()).toList();
+    return _data;
+  }
 }
 
 class Data {
-  int? userId;
-  String? userFullname;
-  String? userEmail;
-  String? userPass;
-
-  Data({this.userId, this.userFullname, this.userEmail, this.userPass});
+  Data({
+    required this.userId,
+    required this.userFullname,
+    required this.userEmail,
+    required this.userPass,
+  });
+  late final int userId;
+  late final String userFullname;
+  late final String userEmail;
+  late final String userPass;
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -40,11 +45,11 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['user_id'] = userId;
-    data['user_fullname'] = userFullname;
-    data['user_email'] = userEmail;
-    data['user_pass'] = userPass;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['user_id'] = userId;
+    _data['user_fullname'] = userFullname;
+    _data['user_email'] = userEmail;
+    _data['user_pass'] = userPass;
+    return _data;
   }
 }
