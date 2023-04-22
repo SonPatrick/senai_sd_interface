@@ -4,6 +4,8 @@ import 'package:senai_sd/models/tasks_model.dart';
 import 'package:senai_sd/screens/criar_tarefa.dart';
 import 'package:senai_sd/widgets/list_card.dart';
 import 'package:circular_clip_route/circular_clip_route.dart';
+import '../repo/dados_repo.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,7 +14,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   List<int> _items = [1, 2, 3, 4];
   GlobalKey _fabKey = GlobalKey();
   List<TaskData> _tarefas = [];
@@ -48,7 +50,13 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+    context.watch<DadosRepository>();
+    var idUser = Provider.of<DadosRepository>(context).idUser;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -153,7 +161,10 @@ class _HomeState extends State<Home> {
       body: ListView.builder(
         itemCount: _tarefas.length,
         itemBuilder: (BuildContext context, int index) {
-          return CardList(data: _tarefas.elementAt(index));
+          return CardList(
+            data: _tarefas.elementAt(index),
+            idUser: idUser,
+          );
         },
       ),
       bottomNavigationBar: Container(

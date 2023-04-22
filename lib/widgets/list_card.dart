@@ -4,8 +4,9 @@ import 'package:senai_sd/screens/detalhes.dart';
 import 'package:senai_sd/utils/parse_data.dart';
 
 class CardList extends StatefulWidget {
+  final int idUser;
   final TaskData data;
-  const CardList({Key? key, required this.data}) : super(key: key);
+  const CardList({Key? key, required this.data, required this.idUser}) : super(key: key);
 
   @override
   State<CardList> createState() => _CardListState();
@@ -20,6 +21,9 @@ class _CardListState extends State<CardList> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes()));
       },
       child: Card(
+        color: (widget.data.taskUserId == widget.idUser)
+            ? Colors.amber.withOpacity(0.7)
+            : Colors.white,
         child: Container(
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(10),
