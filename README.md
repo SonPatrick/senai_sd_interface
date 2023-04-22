@@ -77,7 +77,9 @@ O banco de dados foi projetado levando em consideração os requisitos descritos
 > 
 > **Priorities**:Armazena os tipos de prioridades que podem ser atribuídas às tarefas, podendo ser usada para acrescentar mais descrição de tipos;
 
-A estrutura ficou como na imagem abaixo:
+A estrutura ficou como na imagem abaixo:</br></br>
+
+
 ![Banco de dados](images/db.png)
 ### Node.js
 A Arquitetura do sistema é monolítica, significando que a interface de usuário enconrta-se no mesmo projeto que a API e as respectivas regras de negócio.</br></br>
