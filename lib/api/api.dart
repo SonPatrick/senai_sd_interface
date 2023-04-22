@@ -12,7 +12,8 @@ import 'package:senai_sd/models/tipos_model.dart';
 import '../models/user_model.dart';
 
 class Api extends ApiImpl {
-  static const String url = 'http://localhost:5000/api';
+  static const String url = 'https://senaisd-production.up.railway.app/api';
+  //static const String url = 'http://localhost:5000/api';
   @override
   Future<User> login({required String email, required String pass}) async {
     var response = await http.post(Uri.parse('$url/login/usuario'), body: {

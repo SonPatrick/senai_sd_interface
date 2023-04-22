@@ -18,7 +18,13 @@ class _CardListState extends State<CardList> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Detalhes(
+                      data: widget.data,
+                      idUser: widget.idUser,
+                    )));
       },
       child: Card(
         color: (widget.data.taskUserId == widget.idUser)
