@@ -154,7 +154,7 @@ Alguns dos recursos e requisitos solicitados não foram implementados dado o bre
 
 Com um prazo de mais um dia ou dois, o sistema estaria entregue com os requisitos funcionais e nõ funcionais, além da interface mais bem trabalhada, com mais usabilidade.
 
-### O que seria implementado
+### Implementações futuras
 >Exibição de progresso das requisições na interface de usuário através de `shimmer`ou `progressbar`;
 >
 >Interface ainda mais `otimizada` para a web e com o `design` mais trabalhado pensando no usuário. 
