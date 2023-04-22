@@ -62,6 +62,24 @@ O Projeto foi implementado utilizando as tecnologias/Frameworks:
     Node.js
     Postgres
 
+### Postgres
+O banco de dados foi projetado levando em consideração os requisitos descritos no documento. Gerando as seguintes tabelas:
+  
+> **Users**: Armazena os usuários do sistema,
+> 
+> **Tasks**: Armazena as tarefas,
+> 
+> **Task_Comments**: Armazena os comentários das tarefas,
+> 
+> **Types**: Armazena os tipos de tarefas, podendo ser usada para acrescentar mais tipos;
+> 
+> **Status**: Armazena a situação de tarefas, podendo ser usada para acrescentar mais situações possíveis;
+> 
+> **Priorities**:Armazena os tipos de prioridades que podem ser atribuídas às tarefas, podendo ser usada para acrescentar mais descrição de tipos;
+
+A estrutura ficou como na imagem abaixo:
+![Banco de dados](images/db.png)
+### Node.js
 A Arquitetura do sistema é monolítica, significando que a interface de usuário enconrta-se no mesmo projeto que a API e as respectivas regras de negócio.</br></br>
 
 A interface foi construída usando a linguagem `Dart` e o `Framework Flutter`, que **renderizou a interface otimizada para Web**  que foi integrada junto ao projeto, formando o **monolito** da aplicação.</br>
@@ -91,12 +109,17 @@ A Aplicação Web foi construída usando `Javascript` com o framework `Node.js` 
 Você precisa ter instalado o `Node.js v18.9.0` ou superior e o `Postgres` em sua máquina.</br></br>
 As variáveis de ambiente estão no arquivo `.env` na raíz do projeto e pode ser alterada de acordo com o host, usuário, nome do banco de dados, a senha e a porta.
 
-> 1. Inicie Postgres
-> 2. Inicialize a aplicação Node.js com o comando:  `node app.js`
-> 3. Abra o navegador e digite: `http://localhost:3000/` para acessar a aplicação;
+> 1. Inicie Postgres;
+> 2. Inicialize a aplicação Node.js com o comando:  `node app.js` ou com o comando `npm start`; 
+> 3. Abra o navegador e digite: `http://localhost:3000/` para acessar a interface de aplicação (Se você for executar a aplicação em contêiner Docker, é necessário informar o IP de acesso e a porta por onde a aplicação é escutada e que são disponibilizados pelo Docker para acesso ao projeto);
+
+### Teste nas requests
+Para testar as requisições realizadas no servidor foi utilizado o software **Insomnia**, que pode ser baixado [aqui](https://insomnia.rest/download), podendo também ser usado o software **Postman**, que pode ser encontrado [aqui](https://www.postman.com/).
+
+![Teste de aplicação Insomnia](images/insomnia.png)
 
 ## Extras
- Caso desejar, você pode gerar as imagens do **Docker** para rodar a aplicação dentro dos contêineres em servidores cloud que suportam `Node.js` e `Postgres`.
+ Caso desejar, você pode gerar as imagens do **Docker** para rodar a aplicação dentro dos contêineres em servidores cloud que suportam `Node.js` e `Postgres`.</br></br> Atente que para possibilitar que a aplicação Web se conecte com o banco de dados em contêineres do Docker, é necessário usar o **Docker Compose**.
 
 ## Login
 
@@ -120,4 +143,29 @@ Com esses dados você pode entrar no sistema para acessar as funcionalidades imp
     [ ] Transderẽncia de tarefas
     [ ] Atualização de tarefas
 
-## Dos recursos não implementados
+
+## Telas da aplicação
+
+
+## Dos recursos não implementados e outras observações
+Alguns dos recursos e requisitos solicitados não foram implementados dado o breve tempo para a entrega dos mesmos. Entretanto buscou-se entregar a aplicação com os requisitos funcionais e com a interface de usuário agradável.</br></br>
+
+Com um prazo de mais um dia ou dois, o sistema estaria entregue com os requisitos funcionais e nõ funcionais, além da interface mais bem trabalhada, com mais usabilidade.
+
+### O que seria implementado
+>Exibição de progresso das requisições na interface de usuário através de `shimmer`ou `progressbar`;
+>
+>Interface ainda mais `otimizada` para a web e com o `design` mais trabalhado pensando no usuário. 
+>
+>Telas mais elegantes e com `responsividade` mais trabalhada.
+
+## Testes de interface e aceitação do público
+Dado o prazo de entrega do sistema, não foram realizados testes com usuários, entretanto as metodologias `TAM` e `UTAUT`  seriam utilizadas para verificar a aceitação, usabilidade e facilidade de uso do sistema na visão do usuário, além de um relatório refinado contendo os feedbacks dos mesmos.
+
+---
+## Telas
+### Login
+![](images/login.png)
+
+## Agradecimentos
+Agradeço primeiramente a Deus por chegar até aqui nessa etapa, agradeço à minha amada e minha sogra por estarem comigo me auxiliando quanto à minha alimentação, agradeço aos meus amigos e claro, agradeço à equipe FIESC por ter chegado nesta etapa.
