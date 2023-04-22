@@ -52,9 +52,41 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
-          'Tarefas',
-          style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Tarefas',
+              style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(width: 10),
+            SizedBox(
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton.extended(
+                  elevation: 0.5,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CircularClipRoute<void>(
+                        builder: (context) => const CriarTarefa(),
+                        expandFrom: _fabKey.currentContext!,
+                        curve: Curves.fastOutSlowIn,
+                        reverseCurve: Curves.fastOutSlowIn,
+                        opacity: ConstantTween(1),
+                        transitionDuration: const Duration(milliseconds: 750),
+                      ),
+                    );
+                  },
+                  key: _fabKey,
+                  label: Text('Criar tarefa'),
+                  backgroundColor: Colors.orange,
+                ),
+              ),
+            ),
+          ],
         ),
         elevation: 0.0,
         bottom: PreferredSize(
@@ -69,7 +101,7 @@ class _HomeState extends State<Home> {
                   flex: 1,
                   child: Column(
                     children: [
-                      Text('id', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      Text('#', style: TextStyle(fontSize: 12, color: Colors.white)),
                     ],
                   ),
                 ),
@@ -85,7 +117,7 @@ class _HomeState extends State<Home> {
                   flex: 2,
                   child: Column(
                     children: [
-                      Text('Descrição', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      Text('Tipo', style: TextStyle(fontSize: 12, color: Colors.white)),
                     ],
                   ),
                 ),
@@ -101,7 +133,7 @@ class _HomeState extends State<Home> {
                   flex: 2,
                   child: Column(
                     children: [
-                      Text('Daya de abertura', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      Text('Data de abertura', style: TextStyle(fontSize: 12, color: Colors.white)),
                     ],
                   ),
                 ),
@@ -124,47 +156,39 @@ class _HomeState extends State<Home> {
           return CardList(data: _tarefas.elementAt(index));
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            CircularClipRoute<void>(
-              builder: (context) => const CriarTarefa(),
-              expandFrom: _fabKey.currentContext!,
-              curve: Curves.fastOutSlowIn,
-              reverseCurve: Curves.fastOutSlowIn,
-              opacity: ConstantTween(1),
-              transitionDuration: const Duration(milliseconds: 750),
-            ),
-          );
-        },
-        key: _fabKey,
-        label: Text('Criar tarefa'),
-        backgroundColor: Colors.orange,
-      ),
       bottomNavigationBar: Container(
         height: 50,
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 2.0,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: _items.map((item) {
-            return Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ChoiceChip(
-                label: Text('${item}'),
-                selected: _selectedItem == item,
-                onSelected: (selected) {
-                  setState(() {
-                    _selectedItem = selected ? item : null;
-                    if (selected) {
-                      print('Selected: $item');
-                    }
-                  });
-                },
+        color: Colors.black12,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Center(
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: _items.map((item) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: ChoiceChip(
+                        label: Text('${item}'),
+                        selected: _selectedItem == item,
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedItem = selected ? item : null;
+                            if (selected) {
+                              print('Selected: $item');
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-            );
-          }).toList(),
+            ),
+            SizedBox(width: 10),
+          ],
         ),
       ),
     );

@@ -170,4 +170,4 @@ Dado o prazo de entrega do sistema, não foram realizados testes com usuários, 
 ![](images/login.png)
 
 ## Agradecimentos
-Agradeço primeiramente a Deus por chegar até aqui nessa etapa, agradeço à minha amada e minha sogra por estarem comigo me auxiliando quanto à minha alimentação, agradeço aos meus amigos e claro, agradeço à equipe FIESC por ter chegado nesta etapa.
+Agradeço primeiramente a Deus por chegar até aqui nessa etapa, agradeço à minha amada e minha sogra por estarem comigo me auxiliando quanto à minha alimentação, agradeço aos meus amigos e claro, agradeço à equipe FIESC por ter chegado nesta etapa, vocês são demais.
