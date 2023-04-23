@@ -15,17 +15,18 @@ class CriarTarefa extends StatefulWidget {
 class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClientMixin<CriarTarefa> {
   TextEditingController _titleCtrl = TextEditingController();
   TextEditingController _descricaoCtrl = TextEditingController();
-  List<DataStatus> _status = [];
-  DataStatus _selectedValue = DataStatus(statusId: 0, statusDescription: 'Aberta');
+  List<DataStatus> _status = [DataStatus(statusId: 0, statusDescription: 'Aberta')];
+  DataStatus _selectedStatus = DataStatus(statusId: 0, statusDescription: 'Aberta');
+  List<DropdownMenuItem<DataStatus>> statusItems = [];
+  String dropdownValue = 'Aberta';
+
+  var statusMap;
   Api api = Api();
 
   void loadStatus() async {
     var status = await api.listarStatus();
     setState(() => _status = status.data);
-    print('${_status.first.statusDescription}');
   }
-
-  final List<String> _items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
 
   @override
   bool get wantKeepAlive => true;
@@ -97,9 +98,9 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                 ),
                 Container(
                   child: DropdownButton<DataStatus>(
-                    isDense: true,
-                    hint: Text('Escolha'),
-                    value: _selectedValue,
+                    //isDense: true,
+                    hint: Text('Choose'),
+                    value: _selectedStatus,
                     icon: Icon(Icons.check_circle_outline),
                     iconSize: 24,
                     elevation: 16,
@@ -108,9 +109,9 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                       height: 2,
                       color: Colors.blue[300],
                     ),
-                    onChanged: (DataStatus? newValue) {
+                    onChanged: (DataStatus? value) {
                       setState(() {
-                        _selectedValue = newValue!;
+                        _selectedStatus = value!;
                       });
                     },
                     items: _status.map<DropdownMenuItem<DataStatus>>((DataStatus value) {
@@ -122,27 +123,34 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                   ),
                 ),
                 Container(
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: DropdownButton(
-                    underline: Container(),
-                    hint: Text('Prioridade'),
-                    value: "Alta",
-                    onChanged: (value) {
-                      print('${value}');
-                    },
-                    items: _status.map((item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Text(item.statusDescription),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: DropdownButton(
+                      underline: Container(),
+                      value: "New York",
+                      items: [
+                        //add items in the dropdown
+                        DropdownMenuItem(child: Text("New York"), value: "New York"),
+
+                        DropdownMenuItem(
+                          child: Text("Tokyo"),
+                          value: "Tokyo",
+                        ),
+
+                        DropdownMenuItem(
+                          child: Text("Moscow"),
+                          value: "Moscow",
+                        )
+                      ],
+                      onChanged: (value) {
+                        //get value when changed
+                        print("You selected $value");
+                      },
+                    )),
                 SizedBox(width: 50),
                 Text(
                   'Tipo: ',
@@ -150,24 +158,25 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                       TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: DropdownButton(
-                    underline: Container(),
-                    hint: Text('Prioridade'),
-                    value: _items.first,
-                    onChanged: (value) {},
-                    items: _items.map((item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: DropdownButton(
+                      underline: Container(),
+                      value: "New York",
+                      items: [
+                        //add items in the dropdown
+                        DropdownMenuItem(child: Text("New York"), value: "New York"),
+                        DropdownMenuItem(child: Text("Tokyo"), value: "Tokyo"),
+                        DropdownMenuItem(child: Text("Moscow"), value: "Moscow")
+                      ],
+                      onChanged: (value) {
+                        //get value when changed
+                        print("You selected $value");
+                      },
+                    )),
               ]),
           SizedBox(height: 10),
           Row(
