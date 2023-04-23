@@ -121,7 +121,7 @@ A Aplicação Web foi construída usando `Javascript` com o framework `Node.js` 
 
 ## Para testar a aplicação
 
-A aplicação está hospedada na internet, bem [aqui](https://senaisd-production.up.railway.app/#/), porém a exibição ocorre apenas na versão mobile ainda. Como mostrado na imagem abaixo:
+A aplicação está hospedada na internet, porém apenas renderiza para mobile, bem [aqui](https://senaisd-production.up.railway.app/#/), porém a exibição ocorre apenas na versão mobile ainda. Como mostrado na imagem abaixo:
 
 ![](images/mobile.gif)
 
