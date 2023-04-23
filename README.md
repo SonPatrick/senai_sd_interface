@@ -170,7 +170,8 @@ Com esses dados você pode entrar no sistema para acessar as funcionalidades imp
 ## **API da aplicação**
 Você pode testar nos seguintes endpoints:</br></br>
 
-### **Listar Tarefas com paginação**
+### **Listar Tarefas com paginação - RF2 2.3**
+Lista as tarefas que não estão fechadas com paginação e com limite de exibição de até 10 tarefas por página.
 **Endpoint:**  http://localhost:5000/api/listar/tarefas/:page</br>
 **Parametro:**  [:page] número da página para exibir os resultados</br>
 **Método:** GET</br>
@@ -195,7 +196,8 @@ Você pode testar nos seguintes endpoints:</br></br>
 </br>
 
 
-### **Listar Tipos de Tarefas**
+### **Listar Tipos de Tarefas - RF3 3.1**
+Lista os tipos de tarefa para preencher o ComboBox/DropDownButton.
 **Endpoint:**  http://localhost:5000/api/listar/tipos</br>
 **Método:** GET</br>
 **Response:**
@@ -222,33 +224,8 @@ Você pode testar nos seguintes endpoints:</br></br>
 
 </br>
 
-
-### **Listar Status de Tarefas**
-**Endpoint:**  http://localhost:5000/api/listar/tipos</br>
-**Método:** GET</br>
-**Response:**
-  
-    {
-      "data": [
-        {
-          "status_id": 1,
-          "status_description": "Concluída"
-        },
-        {
-          "status_id": 2,
-          "status_description": "Fechada"
-        },
-        {
-          "status_id": 3,
-          "status_description": "Aberta"
-        }
-      ]
-    }
-
-</br>
-
-
-### **Listar Prioridade de Tarefas**
+### **Listar Prioridade de Tarefas - RF3 3.2**
+Lista s prioridades de tarefa para preencher o ComboBox/DropDownButton.
 **Endpoint:**  http://localhost:5000/api/listar/prioridades</br>
 **Método:** GET</br>
 **Response:**
@@ -276,8 +253,33 @@ Você pode testar nos seguintes endpoints:</br></br>
 
 </br>
 
+### **Listar Status de Tarefas - RF4 4.3**
+Lista os status de tarefa para preencher o ComboBox/DropDownButton.
+**Endpoint:**  http://localhost:5000/api/listar/status</br>
+**Método:** GET</br>
+**Response:**
+  
+    {
+      "data": [
+        {
+          "status_id": 1,
+          "status_description": "Concluída"
+        },
+        {
+          "status_id": 2,
+          "status_description": "Fechada"
+        },
+        {
+          "status_id": 3,
+          "status_description": "Aberta"
+        }
+      ]
+    }
 
-### **Criar nova tarefa**
+</br>
+
+### **Criar nova tarefa* - RF3 3.3**
+Lista os tipos de tarefa para preencher o ComboBox/DropDownButton.
 **Endpoint:**  http://localhost:5000/api/criar/tarefa/id_user</br>
 **Método:** POST</br>
 **Body:**
@@ -300,7 +302,12 @@ Você pode testar nos seguintes endpoints:</br></br>
 </br>
 
 
-### **Atualizar tarefa**
+### **Atualizar tarefa - RF4**
+Recurso utilizado para atualizar a tarefa quando:
+* Quando o status da tarefa for alterado;
+* Quando outro usuário quiser assumir a tarefa; e
+* Quando a tarefa mudar de prioridade;
+  
 **Endpoint:**  http://localhost:5000/api/atualizar/tarefa/id_task</br>
 **Método:** PUT</br>
 **Body:**
@@ -324,7 +331,8 @@ Você pode testar nos seguintes endpoints:</br></br>
 </br>
 
 
-### **Criar usuário**
+### **Criar usuário RF1**
+Recurso implementado para a criação de usuário.
 **Endpoint:**  http://localhost:5000/api/criar/usuario</br>
 **Método:** POST</br>
 **Body:**
@@ -344,7 +352,8 @@ Você pode testar nos seguintes endpoints:</br></br>
 
 </br>
 
-### **Login de usuário**
+### **Login de usuário RF1**
+Recurso de login/autenticação no sistema para a utilização dos demais recursos.
 **Endpoint:**  http://localhost:5000/api/login/usuario</br>
 **Método:** POST</br>
 **Body:**
@@ -377,12 +386,13 @@ Alguns dos recursos e requisitos solicitados não foram implementados dado o bre
 Com um prazo de mais um dia ou dois, o sistema estaria entregue com os requisitos funcionais e não funcionais, além da interface mais bem trabalhada, com mais usabilidade.
 
 Os requisitos não implementados na interface ou que estão incompletos foram:
-  * Paginação na página inicial das tarefas
-  * Criação de novo usuário
-  * Criação de tarefas
-  * Assumir tarefas
-  * Atualizar tarefas
-  * Tela de detalhes de tarefas
+  * Paginação na página inicial das tarefas;
+  * Criação de novo usuário;
+  * Criação de tarefas;
+  * Assumir tarefas;
+  * Atualizar tarefas;
+  * Tela de detalhes de tarefas;
+  * Criação de comentário/providência na tarefa.
 
 ### Implementações futuras
 >Exibição de progresso das requisições na interface de usuário através de `shimmer`ou `progressbar`;
