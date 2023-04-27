@@ -11,7 +11,7 @@ class Tarefas {
 
   Tarefas.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    status = json['pages'];
+    pages = json['pages'];
     message = json['message'];
     data = List.from(json['data']).map((e) => TaskData.fromJson(e)).toList();
   }
