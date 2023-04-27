@@ -15,21 +15,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
-  List<int> _items = [1, 2, 3, 4];
   GlobalKey _fabKey = GlobalKey();
   List<TaskData> _tarefas = [];
   int? _selectedItem = 1;
-  int _page = 0;
+  int _currentPage = 0;
+  int _totalPages = 1;
 
-  void setPage(int page) => setState(() => _page = page);
+  void setPage(int page) => setState(() => _currentPage = page);
 
   Api api = Api();
-  void _carregarTarefas() async {
-    Tarefas result = await api.listarTarefas(page: _page);
+  void _carregarTarefas(int page) async {
+    Tarefas result = await api.listarTarefas(page: page);
 
     if (result.status == 1 && result.data.length > 0) {
       setState(() {
         _tarefas = result.data;
+        _totalPages = result.pages;
       });
       print(_tarefas.first);
     } else {
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
 
   @override
   void initState() {
-    if (mounted) _carregarTarefas();
+    if (mounted) _carregarTarefas(_currentPage);
     super.initState();
   }
 
@@ -179,25 +180,26 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
               child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                children: _items.map((item) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: ChoiceChip(
-                        label: Text('${item}'),
-                        selected: _selectedItem == item,
-                        onSelected: (selected) {
-                          setState(() {
-                            _selectedItem = selected ? item : null;
-                            if (selected) {
-                              print('Selected: $item');
-                            }
-                          });
-                        },
+                children: [
+                  for (int index = 0; index < _totalPages; index++)
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: ChoiceChip(
+                          label: Text('${index + 1}'),
+                          selected: _selectedItem == index,
+                          onSelected: (selected) {
+                            setState(() {
+                              _selectedItem = selected ? index : null;
+                              if (selected) {
+                                print('Selected: $index');
+                              }
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    )
+                ],
               ),
             ),
             SizedBox(width: 10),
