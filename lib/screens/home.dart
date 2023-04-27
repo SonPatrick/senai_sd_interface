@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   GlobalKey _fabKey = GlobalKey();
   List<TaskData> _tarefas = [];
-  int? _selectedItem = 1;
+  int? _selectedItem = 0;
   int _currentPage = 0;
   int _totalPages = 1;
   bool _isLoading = false;
