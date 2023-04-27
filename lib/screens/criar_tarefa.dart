@@ -15,15 +15,42 @@ class CriarTarefa extends StatefulWidget {
 class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClientMixin<CriarTarefa> {
   TextEditingController _titleCtrl = TextEditingController();
   TextEditingController _descricaoCtrl = TextEditingController();
+  List<DataStatus> _status = [];
 
-  List<DataStatus> _status = [
-    DataStatus(statusId: 1, statusDescription: 'Concluída'),
-    DataStatus(statusId: 2, statusDescription: 'Fechada'),
-    DataStatus(statusId: 3, statusDescription: 'Aberta')
-  ];
+  String selectedStatus = "Aberta";
+  String selectedPrioridade = "Sem Prioridade";
+  String selectedTipo = "Solicitação de Serviço";
+
+  List<DropdownMenuItem<String>> get dropdownStatus {
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("Aberta"), value: "Aberta"),
+      DropdownMenuItem(child: Text("Fechada"), value: "Fechada"),
+      DropdownMenuItem(child: Text("Concluída"), value: "Concluída"),
+    ];
+    return menuItems;
+  }
+
+  List<DropdownMenuItem<String>> get dropdownPrioridade {
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("Sem Prioridade"), value: "Sem Prioridade"),
+      DropdownMenuItem(child: Text("Alta"), value: "Alta"),
+      DropdownMenuItem(child: Text("Média"), value: "Média"),
+      DropdownMenuItem(child: Text("Baixa"), value: "Baixa"),
+    ];
+    return menuItems;
+  }
+
+  List<DropdownMenuItem<String>> get dropdownTipos {
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("Incidente"), value: "Incidente"),
+      DropdownMenuItem(child: Text("Solicitação de Serviço"), value: "Solicitação de Serviço"),
+      DropdownMenuItem(child: Text("Melhorias"), value: "Melhorias"),
+      DropdownMenuItem(child: Text("Projetos"), value: "Projetos"),
+    ];
+    return menuItems;
+  }
 
   int _selectedStatusId = 1;
-  String dropdownValue = 'Aberta';
 
   var statusMap;
   Api api = Api();
@@ -102,50 +129,26 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                       TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
                 ),
                 Container(
-                  child: DropdownButtonFormField<DataStatus>(
-                    value: _status.first,
-                    items: _status.map<DropdownMenuItem<DataStatus>>((DataStatus status) {
-                      return DropdownMenuItem<DataStatus>(
-                        value: status,
-                        child: Text(status.statusDescription),
-                      );
-                    }).toList(),
-                    onChanged: (DataStatus? selectedStatus) {
+                  child: DropdownButton(
+                    value: selectedPrioridade,
+                    hint: Text("Prioridade"),
+                    underline: Container(),
+                    onChanged: (String? newValue) {
                       setState(() {
-                        _selectedStatusId = selectedStatus!.statusId;
+                        selectedPrioridade = newValue!;
                       });
                     },
+                    items: dropdownPrioridade,
                   ),
                 ),
                 Container(
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: DropdownButton(
-                      underline: Container(),
-                      value: "New York",
-                      items: [
-                        //add items in the dropdown
-                        DropdownMenuItem(child: Text("New York"), value: "New York"),
-
-                        DropdownMenuItem(
-                          child: Text("Tokyo"),
-                          value: "Tokyo",
-                        ),
-
-                        DropdownMenuItem(
-                          child: Text("Moscow"),
-                          value: "Moscow",
-                        )
-                      ],
-                      onChanged: (value) {
-                        //get value when changed
-                        print("You selected $value");
-                      },
-                    )),
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
                 SizedBox(width: 50),
                 Text(
                   'Tipo: ',
@@ -153,25 +156,47 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                       TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
                 ),
                 Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: DropdownButton(
-                      underline: Container(),
-                      value: "New York",
-                      items: [
-                        //add items in the dropdown
-                        DropdownMenuItem(child: Text("New York"), value: "New York"),
-                        DropdownMenuItem(child: Text("Tokyo"), value: "Tokyo"),
-                        DropdownMenuItem(child: Text("Moscow"), value: "Moscow")
-                      ],
-                      onChanged: (value) {
-                        //get value when changed
-                        print("You selected $value");
-                      },
-                    )),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: DropdownButton(
+                    value: selectedTipo,
+                    hint: Text("Tipo"),
+                    underline: Container(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedTipo = newValue!;
+                      });
+                    },
+                    items: dropdownTipos,
+                  ),
+                ),
+                SizedBox(width: 50),
+                Text(
+                  'Status: ',
+                  style:
+                      TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: DropdownButton(
+                    value: selectedStatus,
+                    hint: Text("Status"),
+                    underline: Container(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedStatus = newValue!;
+                      });
+                    },
+                    items: dropdownTipos,
+                  ),
+                ),
               ]),
           SizedBox(height: 10),
           Row(
@@ -190,15 +215,5 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
         ]),
       ),
     );
-  }
-
-  List<DropdownMenuItem<String>> get dropdownItems {
-    List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("USA"), value: "USA"),
-      DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-      DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-      DropdownMenuItem(child: Text("England"), value: "England"),
-    ];
-    return menuItems;
   }
 }
