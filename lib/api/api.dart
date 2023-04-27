@@ -9,6 +9,7 @@ import 'package:senai_sd/models/prioridades_model.dart';
 import 'package:senai_sd/models/status.dart';
 import 'package:senai_sd/models/tasks_model.dart';
 import 'package:senai_sd/models/tipos_model.dart';
+import '../models/general_model.dart';
 import '../models/user_model.dart';
 
 class Api extends ApiImpl {
@@ -59,6 +60,25 @@ class Api extends ApiImpl {
     print('${response.body}');
 
     Prioridade model = Prioridade.fromJson(json.decode(response.body));
+    return model;
+  }
+
+  @override
+  Future<GeneralModel> cadastrarTarefa(
+      String title, String desc, int priorityId, int statusId, int typeId, String userId) async {
+    var response = await http.post(
+      Uri.parse("$url/criar/tarefa/${userId}"),
+      body: {
+        "task_title": "$title",
+        "task_description": "$desc",
+        "task_type_id": "${typeId}",
+        "task_priority_id": "${priorityId}",
+        "task_status_id": "${statusId}",
+      },
+    );
+    print('${response.body}');
+
+    GeneralModel model = GeneralModel.fromJson(json.decode(response.body));
     return model;
   }
 }

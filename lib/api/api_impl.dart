@@ -1,11 +1,12 @@
 import 'package:senai_sd/api/api_interface.dart';
+import 'package:senai_sd/models/general_model.dart';
 import 'package:senai_sd/models/status.dart';
 import 'package:senai_sd/models/prioridades_model.dart';
 import 'package:senai_sd/models/tasks_model.dart';
 import 'package:senai_sd/models/tipos_model.dart';
 import 'package:senai_sd/models/user_model.dart';
 
-abstract class ApiImpl implements ApiInterface {
+class ApiImpl implements ApiInterface {
   @override
   Future<User> login({required String email, required String pass}) {
     throw UnimplementedError('Recurso de login ainda não implementado');
@@ -34,5 +35,11 @@ abstract class ApiImpl implements ApiInterface {
   @override
   Future<Tarefas> assumirTarefas({required int id}) {
     throw UnimplementedError('Recurso de assumir tarefas ainda não implementado');
+  }
+
+  @override
+  Future<GeneralModel> cadastrarTarefa(
+      String title, String desc, int priorityId, int statusId, int typeId, String userId) {
+    throw UnimplementedError('Recurso de cadastrar tarefas ainda não implementado');
   }
 }

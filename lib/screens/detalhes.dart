@@ -5,7 +5,6 @@ import 'package:senai_sd/models/tasks_model.dart';
 import 'package:senai_sd/screens/inserir_observacao.dart';
 import '../utils/parse_data.dart';
 
-import '../models/status.dart';
 import '../repo/dados_repo.dart';
 
 class Detalhes extends StatefulWidget {
@@ -23,14 +22,28 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
   String _descricao = "";
   String _responsavel = "";
   String _dataCriacao = "";
-  String _situacao = "";
+  String _status = "";
   String _tipo = "";
   String _prioridade = "";
 
   Formatter formatter = Formatter();
-  List<DataStatus> _status = [];
-  DataStatus _selectedValue = DataStatus(statusId: 0, statusDescription: 'Aberta');
+
   Api api = Api();
+
+  void getStatus(String vStatus, String vPrioridade, String vTipo) async {
+    var status = await api.listarStatus();
+    var tipos = await api.listarTipos();
+    var prioridade = await api.listarPrioridade();
+
+    var idStatus = status.data.firstWhere((element) => element.statusId == vStatus);
+    setState(() => {_status = idStatus.statusDescription});
+
+    var idTipos = tipos.data.firstWhere((element) => element.typeId == vStatus);
+    setState(() => _tipo = idTipos.typeDescription);
+
+    var idPrioridade = prioridade.data.firstWhere((element) => element.priorityId == vStatus);
+    setState(() => _prioridade = idPrioridade.priorityDescription);
+  }
 
   void fillFields() {
     _title = widget.data.taskTitle;
@@ -41,9 +54,8 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
   }
 
   void loadStatus() async {
-    var status = await api.listarStatus();
-    setState(() => _status = status.data);
-    print('${_status.first.statusDescription}');
+    getStatus(widget.data.statusDescription, widget.data.priorityDescription,
+        widget.data.typeDescription);
   }
 
   @override
@@ -52,7 +64,6 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
   @override
   void initState() {
     if (mounted) loadStatus();
-    if (mounted) fillFields();
     super.initState();
   }
 
@@ -141,6 +152,43 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
                       'Prioridade: ',
                       style: TextStyle(
                           color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+                    ),
+                    Text(
+                      '${_prioridade}',
+                      style:
+                          TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+              SizedBox(height: 10),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Tipo: ',
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+                    ),
+                    Text(
+                      '${_tipo}',
+                      style:
+                          TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+              SizedBox(height: 10),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Status: ',
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+                    ),
+                    Text(
+                      '${_status}',
+                      style:
+                          TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ]),
               SizedBox(height: 10),

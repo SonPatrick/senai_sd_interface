@@ -15,21 +15,21 @@ class Prioridade {
 
 class DataPrioridade {
   DataPrioridade({
-    required this.typeId,
-    required this.typeDescription,
+    required this.priorityId,
+    required this.priorityDescription,
   });
-  late final int typeId;
-  late final String typeDescription;
+  late final int priorityId;
+  late final String priorityDescription;
 
   DataPrioridade.fromJson(Map<String, dynamic> json) {
-    typeId = json['type_id'];
-    typeDescription = json['type_description'];
+    priorityId = json['priority_id'];
+    priorityDescription = json['priority_description'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['type_id'] = typeId;
-    _data['type_description'] = typeDescription;
+    _data['priority_id'] = priorityId;
+    _data['priority_description'] = priorityDescription;
     return _data;
   }
 }
