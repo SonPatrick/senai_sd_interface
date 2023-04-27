@@ -204,12 +204,16 @@ class _LoginState extends State<Login> {
                   children: [
                     SizedBox(height: 200, child: Lottie.asset('assets/login.json')),
                     SizedBox(height: 10),
-                    Text(
-                      'Entrando no sistema',
-                      style: TextStyle(
-                        color: Colors.indigo,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    FadeInUp(
+                      animate: true,
+                      duration: const Duration(milliseconds: 200),
+                      child: Text(
+                        'Entrando no sistema',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],

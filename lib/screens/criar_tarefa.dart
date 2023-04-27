@@ -15,49 +15,20 @@ class CriarTarefa extends StatefulWidget {
 class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClientMixin<CriarTarefa> {
   TextEditingController _titleCtrl = TextEditingController();
   TextEditingController _descricaoCtrl = TextEditingController();
-  List<DataStatus> _status = [];
 
-  String selectedStatus = "Aberta";
-  String selectedPrioridade = "Sem Prioridade";
-  String selectedTipo = "Solicitação de Serviço";
+  String currentStatus = "";
+  String currentPrioridade = "";
+  String currentTipo = "";
 
-  List<DropdownMenuItem<String>> get dropdownStatus {
-    List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("Aberta"), value: "Aberta"),
-      DropdownMenuItem(child: Text("Fechada"), value: "Fechada"),
-      DropdownMenuItem(child: Text("Concluída"), value: "Concluída"),
-    ];
-    return menuItems;
-  }
-
-  List<DropdownMenuItem<String>> get dropdownPrioridade {
-    List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("Sem Prioridade"), value: "Sem Prioridade"),
-      DropdownMenuItem(child: Text("Alta"), value: "Alta"),
-      DropdownMenuItem(child: Text("Média"), value: "Média"),
-      DropdownMenuItem(child: Text("Baixa"), value: "Baixa"),
-    ];
-    return menuItems;
-  }
-
-  List<DropdownMenuItem<String>> get dropdownTipos {
-    List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("Incidente"), value: "Incidente"),
-      DropdownMenuItem(child: Text("Solicitação de Serviço"), value: "Solicitação de Serviço"),
-      DropdownMenuItem(child: Text("Melhorias"), value: "Melhorias"),
-      DropdownMenuItem(child: Text("Projetos"), value: "Projetos"),
-    ];
-    return menuItems;
-  }
-
-  int _selectedStatusId = 1;
+  List<String> _status = ["Aberta", "Fechada", "Concluída"];
+  List<String> _prioridade = ["Sem Prioridade", "Alta", "Média", "Baixa"];
+  List<String> _tipos = ["Incidente", "Solicitação de Serviço", "Melhorias", "Projetos"];
 
   var statusMap;
   Api api = Api();
 
   void loadStatus() async {
     var status = await api.listarStatus();
-    setState(() => _status = status.data);
   }
 
   @override
@@ -65,6 +36,10 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
 
   @override
   void initState() {
+    currentStatus = _status[0];
+    currentPrioridade = _prioridade[0];
+    currentTipo = _tipos[0];
+
     if (mounted) loadStatus();
     super.initState();
   }
@@ -119,100 +94,153 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
             onChanged: (value) {},
           ),
           SizedBox(height: 10),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Prioridade: ',
-                  style:
-                      TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
-                ),
-                Container(
-                  child: DropdownButton(
-                    value: selectedPrioridade,
-                    hint: Text("Prioridade"),
-                    underline: Container(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedPrioridade = newValue!;
-                      });
-                    },
-                    items: dropdownPrioridade,
-                  ),
-                ),
-                Container(
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-                SizedBox(width: 50),
-                Text(
-                  'Tipo: ',
-                  style:
-                      TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: DropdownButton(
-                    value: selectedTipo,
-                    hint: Text("Tipo"),
-                    underline: Container(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedTipo = newValue!;
-                      });
-                    },
-                    items: dropdownTipos,
-                  ),
-                ),
-                SizedBox(width: 50),
-                Text(
-                  'Status: ',
-                  style:
-                      TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: DropdownButton(
-                    value: selectedStatus,
-                    hint: Text("Status"),
-                    underline: Container(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedStatus = newValue!;
-                      });
-                    },
-                    items: dropdownTipos,
-                  ),
-                ),
-              ]),
-          SizedBox(height: 10),
-          Row(
+        ]),
+      ),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        height: 70,
+        padding: EdgeInsets.all(20),
+        child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text(
+                'Prioridade: ',
+                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+              ),
+              Container(
+                height: 40,
+                width: 200,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: DropdownButton(
+                    underline: SizedBox.shrink(),
+                    alignment: Alignment.topCenter,
+                    borderRadius: BorderRadius.circular(8),
+                    dropdownColor: Colors.white,
+                    value: currentPrioridade,
+                    items: _prioridade
+                        .map<DropdownMenuItem<String>>(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                            alignment: Alignment.center,
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (String? value) => setState(
+                      () {
+                        if (value != null) currentPrioridade = value;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              ),
+              SizedBox(width: 50),
+              Text(
+                'Tipo: ',
+                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+              ),
+              Container(
+                height: 40,
+                width: 200,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: DropdownButton(
+                    underline: SizedBox.shrink(),
+                    alignment: Alignment.topCenter,
+                    borderRadius: BorderRadius.circular(8),
+                    dropdownColor: Colors.white,
+                    value: currentTipo,
+                    items: _tipos
+                        .map<DropdownMenuItem<String>>(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                            alignment: Alignment.center,
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (String? value) => setState(
+                      () {
+                        if (value != null) currentTipo = value;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 50),
+              Text(
+                'Status: ',
+                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+              ),
+              Container(
+                height: 40,
+                width: 200,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: DropdownButton(
+                    underline: SizedBox.shrink(),
+                    alignment: Alignment.topCenter,
+                    borderRadius: BorderRadius.circular(8),
+                    dropdownColor: Colors.white,
+                    value: currentStatus,
+                    items: _status
+                        .map<DropdownMenuItem<String>>(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                            alignment: Alignment.center,
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (String? value) => setState(
+                      () {
+                        if (value != null) currentStatus = value;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(),
+              VerticalDivider(),
+              Spacer(),
               OutlinedButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancelar")),
-              SizedBox(width: 10),
-              ElevatedButton(onPressed: () {}, child: Text("Salvar"))
-            ],
-          )
-        ]),
+                  child: Text(
+                    "Cancelar",
+                    style: TextStyle(color: Colors.black),
+                  )),
+              SizedBox(width: 30),
+              FloatingActionButton.extended(
+                  backgroundColor: Colors.orange,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  label: Text("Salvar")),
+            ]),
       ),
     );
   }

@@ -200,11 +200,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                         padding: const EdgeInsets.all(4.0),
                         child: ChoiceChip(
                           label: Text('${index + 1}'),
-                          selected: _selectedItem == index,
+                          selected: _currentPage == index,
                           onSelected: (selected) {
                             setPage(index);
                             setState(() {
-                              _selectedItem = selected ? index : null;
+                              _currentPage = selected ? index : _currentPage;
                               if (selected) _carregarTarefas(_currentPage);
                             });
                           },
