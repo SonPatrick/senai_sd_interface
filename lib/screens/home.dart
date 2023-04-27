@@ -202,9 +202,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                           label: Text('${index + 1}'),
                           selected: _selectedItem == index,
                           onSelected: (selected) {
+                            setPage(index);
                             setState(() {
                               _selectedItem = selected ? index : null;
-                              if (selected) _carregarTarefas(index);
+                              if (selected) _carregarTarefas(_currentPage);
                             });
                           },
                         ),
