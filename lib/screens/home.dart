@@ -51,6 +51,23 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     }
   }
 
+  void criarTarefa(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      CircularClipRoute(
+        builder: (context) => const CriarTarefa(),
+        expandFrom: _fabKey.currentContext!,
+        curve: Curves.fastOutSlowIn,
+        reverseCurve: Curves.fastOutSlowIn,
+        opacity: ConstantTween(1),
+        transitionDuration: const Duration(milliseconds: 750),
+      ),
+    );
+
+    if (!mounted) return;
+    if (result == 1) _carregarTarefas(_currentPage);
+  }
+
   @override
   void initState() {
     if (mounted) _carregarTarefas(_currentPage);
@@ -67,155 +84,154 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     context.watch<DadosRepository>();
     var idUser = Provider.of<DadosRepository>(context).idUser;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Tarefas',
-              style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(width: 10),
-            SizedBox(
-              height: 50,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FloatingActionButton.extended(
-                  elevation: 0.5,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CircularClipRoute<void>(
-                        builder: (context) => const CriarTarefa(),
-                        expandFrom: _fabKey.currentContext!,
-                        curve: Curves.fastOutSlowIn,
-                        reverseCurve: Curves.fastOutSlowIn,
-                        opacity: ConstantTween(1),
-                        transitionDuration: const Duration(milliseconds: 750),
-                      ),
-                    );
-                  },
-                  key: _fabKey,
-                  label: Text('Criar tarefa'),
-                  backgroundColor: Colors.orange,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Tarefas',
+                style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(width: 10),
+              SizedBox(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton.extended(
+                    elevation: 0.5,
+                    onPressed: () async {
+                      criarTarefa(context);
+                    },
+                    key: _fabKey,
+                    label: Text('Criar tarefa'),
+                    backgroundColor: Colors.orange,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        elevation: 0.0,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(50.0),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Text('#', style: TextStyle(fontSize: 12, color: Colors.white)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text('Titulo', style: TextStyle(fontSize: 12, color: Colors.white)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text('Tipo', style: TextStyle(fontSize: 12, color: Colors.white)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text('Prioridade', style: TextStyle(fontSize: 12, color: Colors.white)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text('Data de abertura', style: TextStyle(fontSize: 12, color: Colors.white)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text('Responsável', style: TextStyle(fontSize: 12, color: Colors.white)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            ],
           ),
-        ),
-      ),
-      body: (!_isLoading)
-          ? ListView.builder(
-              itemCount: _tarefas.length,
-              itemBuilder: (BuildContext context, int index) {
-                return CardList(
-                  data: _tarefas.elementAt(index),
-                  idUser: idUser,
-                );
-              },
-            )
-          : Center(
-              child: SizedBox(
-                  child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xfff8b002)))),
-            ),
-      bottomNavigationBar: Container(
-        height: 50,
-        color: Colors.black12,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Center(
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
+          elevation: 0.0,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(50.0),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  for (int index = 0; index < _totalPages; index++)
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: ChoiceChip(
-                          label: Text('${index + 1}'),
-                          selected: _currentPage == index,
-                          onSelected: (selected) {
-                            setPage(index);
-                            setState(() {
-                              _currentPage = selected ? index : _currentPage;
-                              if (selected) _carregarTarefas(_currentPage);
-                            });
-                          },
-                        ),
-                      ),
-                    )
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        Text('#', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Text('Titulo', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Text('Tipo', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Text('Prioridade', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Text('Data de abertura',
+                            style: TextStyle(fontSize: 12, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Text('Responsável', style: TextStyle(fontSize: 12, color: Colors.white)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-            SizedBox(width: 10),
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () => _carregarTarefas(_currentPage),
+            )
           ],
+        ),
+        body: (!_isLoading)
+            ? ListView.builder(
+                itemCount: _tarefas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return CardList(
+                    data: _tarefas.elementAt(index),
+                    idUser: idUser,
+                  );
+                },
+              )
+            : Center(
+                child: SizedBox(
+                    child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xfff8b002)))),
+              ),
+        bottomNavigationBar: Container(
+          height: 50,
+          color: Colors.black12,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    for (int index = 0; index < _totalPages; index++)
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: ChoiceChip(
+                            label: Text('${index + 1}'),
+                            selected: _currentPage == index,
+                            onSelected: (selected) {
+                              setPage(index);
+                              setState(() {
+                                _currentPage = selected ? index : _currentPage;
+                                if (selected) _carregarTarefas(_currentPage);
+                              });
+                            },
+                          ),
+                        ),
+                      )
+                  ],
+                ),
+              ),
+              SizedBox(width: 10),
+            ],
+          ),
         ),
       ),
     );

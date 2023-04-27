@@ -16,7 +16,7 @@ void main() {
         builder: (context, child) {
           return ScrollConfiguration(
             behavior: CustomBehavior(),
-            child: child!,
+            child: Center(child: child!),
           );
         },
         home: AnnotatedRegion<SystemUiOverlayStyle>(

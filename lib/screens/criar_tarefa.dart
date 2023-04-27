@@ -110,6 +110,7 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
             duration: Duration(seconds: 5),
           ),
         );
+        Navigator.pop(context, 1);
       } else {
         setLoadingTarefa(false);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -158,6 +159,12 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
           style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
         elevation: 0.0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, 0);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25),
@@ -374,7 +381,7 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                       foregroundColor: Colors.black,
                       side: BorderSide(color: Colors.black, width: 2)),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, 0);
                   },
                   child: Text(
                     "Cancelar",
