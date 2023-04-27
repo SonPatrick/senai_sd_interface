@@ -110,7 +110,10 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
             duration: Duration(seconds: 5),
           ),
         );
-        Navigator.pop(context, 1);
+
+        Future.delayed(Duration(seconds: 5), () {
+          Navigator.pop(context, 1);
+        });
       } else {
         setLoadingTarefa(false);
         ScaffoldMessenger.of(context).showSnackBar(
