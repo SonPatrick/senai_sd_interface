@@ -9,6 +9,8 @@ abstract class ApiInterface {
 
   Future<Tarefas> listarTarefas({required int page});
 
+  Future<Tarefas> assumirTarefas({required int id});
+
   Future<Status> listarStatus();
 
   Future<Prioridade> listarPrioridade();
