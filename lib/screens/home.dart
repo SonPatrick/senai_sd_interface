@@ -20,20 +20,27 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   int? _selectedItem = 1;
   int _currentPage = 0;
   int _totalPages = 1;
+  bool _isLoading = false;
 
   void setPage(int page) => setState(() => _currentPage = page);
 
+  void setLoading(bool value) => setState(() => _isLoading = value);
+
   Api api = Api();
+
   void _carregarTarefas(int page) async {
+    setLoading(true);
     Tarefas result = await api.listarTarefas(page: page);
 
     if (result.status == 1 && result.data.length > 0) {
+      setLoading(false);
       setState(() {
         _tarefas = result.data;
         _totalPages = result.pages;
       });
       print(_tarefas.first);
     } else {
+      setLoading(false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('${result.message}'),
@@ -161,15 +168,21 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: _tarefas.length,
-        itemBuilder: (BuildContext context, int index) {
-          return CardList(
-            data: _tarefas.elementAt(index),
-            idUser: idUser,
-          );
-        },
-      ),
+      body: (!_isLoading)
+          ? ListView.builder(
+              itemCount: _tarefas.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CardList(
+                  data: _tarefas.elementAt(index),
+                  idUser: idUser,
+                );
+              },
+            )
+          : Center(
+              child: SizedBox(
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xfff8b002)))),
+            ),
       bottomNavigationBar: Container(
         height: 50,
         color: Colors.black12,
@@ -191,9 +204,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                           onSelected: (selected) {
                             setState(() {
                               _selectedItem = selected ? index : null;
-                              if (selected) {
-                                print('Selected: $index');
-                              }
+                              if (selected) _carregarTarefas(index);
                             });
                           },
                         ),
