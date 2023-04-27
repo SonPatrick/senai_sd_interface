@@ -15,9 +15,14 @@ class CriarTarefa extends StatefulWidget {
 class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClientMixin<CriarTarefa> {
   TextEditingController _titleCtrl = TextEditingController();
   TextEditingController _descricaoCtrl = TextEditingController();
-  List<DataStatus> _status = [DataStatus(statusId: 0, statusDescription: 'Aberta')];
-  DataStatus _selectedStatus = DataStatus(statusId: 0, statusDescription: 'Aberta');
-  List<DropdownMenuItem<DataStatus>> statusItems = [];
+
+  List<DataStatus> _status = [
+    DataStatus(statusId: 1, statusDescription: 'Concluída'),
+    DataStatus(statusId: 2, statusDescription: 'Fechada'),
+    DataStatus(statusId: 3, statusDescription: 'Aberta')
+  ];
+
+  int _selectedStatusId = 1;
   String dropdownValue = 'Aberta';
 
   var statusMap;
@@ -97,29 +102,19 @@ class _CriarTarefaState extends State<CriarTarefa> with AutomaticKeepAliveClient
                       TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
                 ),
                 Container(
-                  child: DropdownButton<DataStatus>(
-                    //isDense: true,
-                    hint: Text('Choose'),
-                    value: _selectedStatus,
-                    icon: Icon(Icons.check_circle_outline),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.blue[300],
-                    ),
-                    onChanged: (DataStatus? value) {
-                      setState(() {
-                        _selectedStatus = value!;
-                      });
-                    },
-                    items: _status.map<DropdownMenuItem<DataStatus>>((DataStatus value) {
+                  child: DropdownButtonFormField<DataStatus>(
+                    value: _status.first,
+                    items: _status.map<DropdownMenuItem<DataStatus>>((DataStatus status) {
                       return DropdownMenuItem<DataStatus>(
-                        value: value,
-                        child: Text(value.statusDescription),
+                        value: status,
+                        child: Text(status.statusDescription),
                       );
                     }).toList(),
+                    onChanged: (DataStatus? selectedStatus) {
+                      setState(() {
+                        _selectedStatusId = selectedStatus!.statusId;
+                      });
+                    },
                   ),
                 ),
                 Container(

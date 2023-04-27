@@ -1,12 +1,12 @@
 name: senai_sd
 description: Projeto desenvolvido para o teste prático do processo seletivo do FIESC.
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: ">=2.19.6 <3.0.0"
 
 dependencies:
   flutter:
@@ -22,7 +22,11 @@ dev_dependencies:
   http: ^0.13.5
   animate_do: ^3.0.2
   provider: ^6.0.5
-  circular_clip_route: 
+  lottie: ^2.3.2
+  circular_clip_route:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/login.json

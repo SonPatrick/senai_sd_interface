@@ -55,8 +55,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     context.watch<DadosRepository>();
     var idUser = Provider.of<DadosRepository>(context).idUser;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
