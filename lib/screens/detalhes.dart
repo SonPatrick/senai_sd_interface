@@ -55,8 +55,12 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
   }
 
   void loadStatus() async {
-    getStatus(widget.data.statusDescription, widget.data.priorityDescription,
-        widget.data.typeDescription);
+    try {
+      getStatus(widget.data.statusDescription, widget.data.priorityDescription,
+          widget.data.typeDescription);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
