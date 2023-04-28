@@ -35,13 +35,14 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
     var tipos = await api.listarTipos();
     var prioridade = await api.listarPrioridade();
 
-    var idStatus = status.data.firstWhere((element) => element.statusId == vStatus);
+    var idStatus = status.data.firstWhere((element) => element.statusDescription == vStatus);
     setState(() => {_status = idStatus.statusDescription});
 
-    var idTipos = tipos.data.firstWhere((element) => element.typeId == vStatus);
+    var idTipos = tipos.data.firstWhere((element) => element.typeDescription == vStatus);
     setState(() => _tipo = idTipos.typeDescription);
 
-    var idPrioridade = prioridade.data.firstWhere((element) => element.priorityId == vStatus);
+    var idPrioridade =
+        prioridade.data.firstWhere((element) => element.priorityDescription == vStatus);
     setState(() => _prioridade = idPrioridade.priorityDescription);
   }
 
@@ -154,7 +155,7 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
                           color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
                     ),
                     Text(
-                      '${_prioridade}',
+                      '${widget.data.priorityDescription}',
                       style:
                           TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -170,7 +171,7 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
                           color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
                     ),
                     Text(
-                      '${_tipo}',
+                      '${widget.data.typeDescription}',
                       style:
                           TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -186,7 +187,7 @@ class _CriarTarefaState extends State<Detalhes> with AutomaticKeepAliveClientMix
                           color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
                     ),
                     Text(
-                      '${_status}',
+                      '${widget.data.statusDescription}',
                       style:
                           TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
